@@ -3,6 +3,8 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { Moon, Sun, Menu, X } from "lucide-react";
 
+
+
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,6 +27,8 @@ const Navbar = () => {
       <NavLink to="/my-accepted-tasks" className="nav-link">My Accepted Tasks</NavLink>
     </>
   );
+
+
 
   return (
     <nav className="w-full shadow-md bg-white dark:bg-gray-900 dark:text-white">
