@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { FaEnvelope, FaEye, FaEyeSlash, FaImage, FaLock, FaUser } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { useAuth } from '../contexts/AuthProvider';
+//import useAuth from '../Hooks/useAuth';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Registration = () => {
-    const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+    const { createUser, signInWithGoogle, updateUserProfile } = use(AuthContext);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({ name: '',email: '',photoURL: '',password: ''});

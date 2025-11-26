@@ -1,15 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/firebase.init';
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
@@ -20,7 +13,7 @@ const AuthProvider = ({children}) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    const signInUser = (email, password) => {
+    const signIn = (email, password) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     }
@@ -39,27 +32,29 @@ const AuthProvider = ({children}) => {
   };
 
   // Logout
-  const logout = () => {
+  const logOut = () => {
     setLoading(true);
     return signOut(auth);
   };
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-        });
-        return () => unsubscribe();
-    }, []);
+  useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, currentUser => {
+    setUser(currentUser);
+     setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
 
     const authInfo = {
-        createUser,
         user,
         loading,
-        signInUser,
+        createUser,
+        signIn,
         signInWithGoogle,
         updateUserProfile,
-        logout
+        logOut
     };    
     return (
 
