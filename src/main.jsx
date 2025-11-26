@@ -11,6 +11,7 @@ import AllJobs from './Pages/AllJobs.jsx';
 import AuthProvider from './contexts/AuthProvider.jsx';
 import Registration from './Pages/Registration.jsx';
 import Login from './Pages/Login.jsx';
+import NotFound from './Pages/NotFound.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '*',
+    element: <NotFound></NotFound>
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(
