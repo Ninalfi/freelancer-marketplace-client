@@ -26,13 +26,6 @@ const MainButton = ({ children, onClick, primary = true, icon: Icon = null, clas
   </button>
 );
 
-const toggleTheme = () => {
-  if (typeof setTheme === "function") {
-    setTheme(isDark ? 'light' : 'dark');
-  } else {
-    console.warn("⚠ setTheme not provided to Navbar.");
-  }
-};
 
 const navItems = [
   { route: '', title: 'Home', icon: Home },
@@ -43,7 +36,7 @@ const navItems = [
 ];
 
 
-const Navbar = ({ userId, theme, setTheme, isDark, auth, showToast }) => {
+const Navbar = ({ userId, isDark, auth, showToast }) => {
 
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,11 +48,13 @@ const Navbar = ({ userId, theme, setTheme, isDark, auth, showToast }) => {
       navigate('/');
       setIsMenuOpen(false);
     } catch {
-      showToast('Logout failed.', 'error');
+      showToast &&showToast('Logout failed.', 'error');
     }
   };
 
+
   return (
+
     <nav className={`sticky top-0 z-50 shadow-lg ${isDark ? 'bg-gray-900 border-b border-gray-700' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16 justify-between md:justify-center lg:justify-between">
@@ -82,12 +77,46 @@ const Navbar = ({ userId, theme, setTheme, isDark, auth, showToast }) => {
           <div className="flex items-center space-x-3 order-3">
             
             {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-full transition duration-300 ${isDark ? 'text-yellow-400 hover:bg-gray-800' : 'text-gray-800 hover:bg-gray-100'}`}
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+             <label className="swap swap-rotate cursor-pointer">
+  {/* Checkbox controls the theme */}
+  <input
+    type="checkbox"
+    className="theme-controller"
+    onChange={(e) => {
+      const newTheme = e.target.checked ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+    }}
+    defaultChecked={document.documentElement.getAttribute("data-theme") === "dark"}
+  />
+
+  {/* Sun icon for light mode */}
+  <svg
+    className="swap-on w-6 h-6 text-yellow-400"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+      d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M6.05 7.05L4.636 5.636m0 12.728 1.414-1.414M18.364 5.636l-1.414 1.414M12 8a4 4 0 110 8 4 4 0 010-8z"
+    />
+  </svg>
+
+  {/* Moon icon for dark mode */}
+  <svg
+    className="swap-off w-6 h-6 text-gray-800"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+      d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
+    />
+  </svg>
+</label>
+
             <div className="hidden md:flex space-x-3">
               {userId ? (
                 <MainButton onClick={handleLogout} primary={false} icon={LogOut}>Logout</MainButton>

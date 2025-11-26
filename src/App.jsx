@@ -1,26 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect } from "react";
 import './App.css'
 
 function App() {
-     const [theme, setTheme] = useState("light");
-  const isDark = theme === "dark";
-   
-  const [count, setCount] = useState(0)
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
   return (
     <>
-       <div className={isDark ? "dark" : ""}>
-      <Navbar 
-        userId={userId}
-        theme={theme}
-        setTheme={setTheme}   // <---- REQUIRED
-        isDark={isDark}
-        auth={auth}
-        showToast={showToast}
-      />
-    </div>
+     <Navbar />
+      
     </>
   )
 }
