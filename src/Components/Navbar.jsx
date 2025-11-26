@@ -14,6 +14,10 @@ const NavLink = ({ route, title, icon: Icon, navigate, isDark, onClick }) => (
     {title}
   </button>
 );
+const links = <>
+        <li><NavLink to="/register">Registration</NavLink></li>
+        <li><NavLink to="/login">Login</NavLink></li>
+</>
 
 const MainButton = ({ children, onClick, primary = true, icon: Icon = null, className = '' }) => (
   <button
@@ -29,7 +33,7 @@ const MainButton = ({ children, onClick, primary = true, icon: Icon = null, clas
 
 const navItems = [
   { route: '', title: 'Home', icon: Home },
-  { route: 'allJobs', title: 'All Jobs', icon: Briefcase },
+  { route: '/allJobs', title: 'All Jobs', icon: Briefcase },
   { route: 'addJob', title: 'Post Job', icon: PlusCircle, requiresAuth: true },
   { route: 'myAddedJobs', title: 'My Posted Jobs', icon: Briefcase, requiresAuth: true },
   { route: 'myAcceptedTasks', title: 'My Accepted Tasks', icon: Bookmark, requiresAuth: true },
