@@ -2,22 +2,28 @@ import { useState, useEffect, useContext } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import { toast } from "react-toastify";
 
 
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, loading } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
+    const root = document.documentElement;
     if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+            root.classList.add("dark");
+        } else {
+            root.classList.remove("dark");
+        }
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const handleThemeToggle = () => {
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
 
   const navLinks = (
     <>
@@ -34,19 +40,18 @@ const Navbar = () => {
     <nav className="w-full shadow-md bg-white dark:bg-gray-900 dark:text-white">
       <div className="max-w-7xl mx-auto p-4 flex justify-between items-center">
        
-        <Link to="/" className="text-2xl font-bold"><span className="text-blue-500 font-extrabold text-3xl">S</span><span className="text-blue-500">k<span className="text-white">i</span>ll</span>io</Link>
+        <Link to="/" className="text-2xl font-bold"><span className="text-blue-500 font-extrabold text-3xl">S</span><span className="text-blue-500">k<span className="dark:text-white text-black ">i</span>ll</span>io</Link>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex gap-6 items-center">
           {navLinks}
 
           {/* Theme Toggle */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-full border dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700"
-          >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+                        onClick={handleThemeToggle}
+                        className="p-2 rounded-full border dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200"
+                    >
+                        {theme === "dark" ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-gray-900" />}
+                    </button>
 
           {/* Auth Section */}
           {!user ? (
@@ -96,11 +101,15 @@ const Navbar = () => {
 
           {/* Theme Toggle (mobile) */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-md border dark:border-gray-600"
-          >
-            {theme === "dark" ? "Switch to Light ☀️" : "Switch to Dark 🌙"}
-          </button>
+                        onClick={handleThemeToggle}
+                        className="p-2 rounded-md border dark:border-gray-600 flex items-center justify-center gap-2 mt-2"
+                    >
+                        {theme === "dark" ? (
+                            <>Switch to Light <Sun size={20} className="text-yellow-400" /></>
+                        ) : (
+                            <>Switch to Dark <Moon size={20} className="text-gray-900" /></>
+                        )}
+                    </button>
 
           {!user ? (
             <>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
-import { motion } from "framer-motion"; // For animations
+import { motion } from "motion/react"
 import JobCard from "./JobCard";
 
 
@@ -10,9 +10,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch latest 6 jobs from backend
     axios
-      .get("http://localhost:3000/allJobs?limit=6")
+      .get("http://localhost:3000/jobs?limit=6")
       .then((res) => {
         setLatestJobs(res.data);
         setLoading(false);
@@ -26,64 +25,121 @@ const Home = () => {
   return (
     <div className="space-y-16">
       {/* ----------- Banner ----------- */}
-      <section className="relative bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-24 rounded-lg shadow-lg">
+      <section className="relative flex flex-col lg:flex-row items-center justify-between  bg-linear-to-r from-green-500 to-green-800 text-white px-8 py-24 rounded-lg shadow-lg">
+        
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Freelance Marketplace
-          </h1>
-          <p className="text-lg md:text-xl mb-6">
-            Discover talented freelancers and get your tasks done efficiently.
-          </p>
-          <div className="space-x-4">
-            <Link
-              to="/addJob"
-              className="bg-white text-blue-600 px-6 py-3 rounded font-semibold shadow hover:bg-gray-100 transition"
-            >
-              Create a Job
-            </Link>
-            <Link
-              to="/allJobs"
-              className="border border-white px-6 py-3 rounded hover:bg-white hover:text-blue-600 transition"
-            >
-              Explore Jobs
-            </Link>
-          </div>
-        </motion.div>
+    initial={{ x: -50, opacity: 0 }}
+    animate={{ x: 0, opacity: 1 }}
+    transition={{ duration: 0.8 }}
+    className="space-y-5 max-w-xl"
+  >
+    <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+      Hire Talent. <br /> Find Work. Faster.
+    </h1>
+
+    <p className="text-lg">
+      Search thousands of freelance opportunities and hire experts with confidence.
+    </p>
+
+    {/* 🔍 SEARCH AREA */}
+    <div className="flex bg-white rounded-full overflow-hidden max-w-md shadow-lg mt-4">
+      <input
+        type="text"
+        placeholder="Search jobs e.g. web developer..."
+        className="w-full px-5 py-3 outline-none text-gray-700"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            window.location.href = `/all-jobs?search=${e.target.value}`;
+          }
+        }}
+      />
+      <button
+        onClick={() => {
+          const value = document.querySelector("input")?.value;
+          if (value) window.location.href = `/all-jobs?search=${value}`;
+        }}
+        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6"
+      >
+        Search
+      </button>
+    </div>
+
+    <div className="flex gap-4">
+      <Link
+        to="/all-jobs"
+        className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200"
+      >
+        Browse Jobs
+      </Link>
+      <Link
+        to="/add-job"
+        className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-purple-600 font-semibold"
+      >
+        Create a Job
+      </Link>
+    </div>
+  </motion.div>
+
+  <img
+    src="https://i.ibb.co.com/GfWy1L3r/faizur-rehman-p-HPzd-EHN6-Os-unsplash.jpg"
+    alt="Banner Illustration"
+    className="w-full lg:w-1/2 mt-10 lg:mt-0"
+  />
       </section>
 
       {/* ----------- Dynamic Latest Jobs ----------- */}
-      <section className="px-8">
-        <h2 className="text-3xl font-bold mb-6">Latest Jobs</h2>
-        {loading ? (
-          <p>Loading jobs...</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {latestJobs.map((job) => (
-              <JobCard key={job._id} job={job} />
-            ))}
-          </div>
-        )}
+       <section className="px-6 md:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold mb-6 text-center md:text-left">Latest Jobs</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:text-center">
+          {latestJobs?.slice(0, 6).map((job) => (
+            <motion.div
+              key={job._id}
+              whileHover={{ scale: 1.05 }}
+              className="border rounded-lg p-5 shadow-md bg-white"
+            >
+              <img src={job.coverImage} className="h-36 w-full rounded-md object-cover" />
+              <h3 className="text-xl font-semibold mt-3 text-green-500">{job.title}</h3>
+              <p className="text-gray-600">{job.category}</p>
+              <Link
+                to={`/job/${job._id}`}
+                className="mt-4 inline-block bg-linear-to-r from-green-500 to-green-800 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+              >
+                View Details
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       {/* ----------- Top Categories ----------- */}
-      <section className="px-8">
-        <h2 className="text-3xl font-bold mb-6">Top Categories</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {["Web Development", "Graphic Design", "Digital Marketing", "Writing"].map(
-            (category, idx) => (
-              <div
-                key={idx}
-                className="bg-blue-100 dark:bg-gray-800 text-center p-6 rounded-lg shadow hover:scale-105 transition"
-              >
-                <p className="font-semibold">{category}</p>
-              </div>
-            )
-          )}
-        </div>
+       <section className="px-4 md:px-6 lg:px-8 text-center mt-12">
+         <h2 className="text-3xl font-bold mb-6">Top Categories</h2>
+
+  {loading ? (
+    <p className="text-gray-500">Loading categories...</p>
+  ) : (
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4  gap-6">
+
+      {[...new Map(latestJobs.map(item => [item.category, item.coverImage])).entries()]
+      .slice(0, 4)
+        .map(([category, img], index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05 }}
+            onClick={() => window.location.href = `/all-jobs?category=${category}`} // clickable filter
+            className="rounded-lg bg-linear-to-r from-green-500 to-green-800 overflow-hidden shadow-lg cursor-pointer border border-gray-200 hover:shadow-xl transition flex flex-col"
+          >
+            <img
+              src={img}
+              alt={category}
+              className="h-32 w-full object-cover"
+            />
+            <p className="py-2 font-semibold">{category}</p>
+          </motion.div>
+        ))}
+    </div>
+  )}
       </section>
 
       {/* ----------- About Platform ----------- */}
@@ -100,3 +156,5 @@ const Home = () => {
 };
 
 export default Home;
+
+
