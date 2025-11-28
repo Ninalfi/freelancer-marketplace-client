@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { motion } from "motion/react"
 import JobCard from "./JobCard";
+import { AuthContext} from "../contexts/AuthContext";
 
 
 const Home = () => {
   const [latestJobs, setLatestJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     axios
@@ -22,9 +24,17 @@ const Home = () => {
       });
   }, []);
 
+    const navigate = useNavigate();
+  const handleBrowseJobs = () => {
+  if (user) {
+    navigate("/allJobs");
+  } else {
+    navigate("/register"); 
+  }
+};
+
   return (
     <div className="space-y-16">
-      {/* ----------- Banner ----------- */}
       <section className="relative flex flex-col lg:flex-row items-center justify-between  bg-linear-to-r from-green-500 to-green-800 text-white px-8 py-24 rounded-lg shadow-lg">
         
         <motion.div
@@ -40,8 +50,6 @@ const Home = () => {
     <p className="text-lg">
       Search thousands of freelance opportunities and hire experts with confidence.
     </p>
-
-    {/* 🔍 SEARCH AREA */}
     <div className="flex bg-white rounded-full overflow-hidden max-w-md shadow-lg mt-4">
       <input
         type="text"
@@ -65,12 +73,12 @@ const Home = () => {
     </div>
 
     <div className="flex gap-4">
-      <Link
-        to="/all-jobs"
-        className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200"
-      >
-        Browse Jobs
-      </Link>
+      <button
+  onClick={handleBrowseJobs}
+  className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200"
+>
+  Browse Jobs
+</button>
       <Link
         to="/add-job"
         className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-purple-600 font-semibold"
