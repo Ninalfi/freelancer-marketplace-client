@@ -5,6 +5,7 @@ import App from './App.jsx'
 
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
+
 import RootLayout from './Layout/RootLayout.jsx';
 import Home from './Pages/Home.jsx';
 import AllJobs from './Pages/AllJobs.jsx';
@@ -13,6 +14,8 @@ import Registration from './Pages/Registration.jsx';
 import Login from './Pages/Login.jsx';
 import NotFound from './Pages/NotFound.jsx';
 import AddJob from './Pages/AddJob.jsx';
+import PrivateRoute from './Layout/PrivateRoute.jsx';
+import JobDetails from './Pages/JobDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       { 
         index: true,
-        Component: Home
+        element: <Home></Home>
       },
       {
         path: 'allJobs',
@@ -37,10 +40,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'addJob',
-        element: <AddJob></AddJob>
+        element:(
+          <PrivateRoute>
+            <AddJob></AddJob>
+          </PrivateRoute>
+        )
       },
       {
-        
+        path: 'jobs/:id',
+        element:(
+          <PrivateRoute>
+            <JobDetails></JobDetails>
+          </PrivateRoute>
+        )
       }
     ]
   },
@@ -55,5 +67,5 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </StrictMode>,
+  </StrictMode>
 )

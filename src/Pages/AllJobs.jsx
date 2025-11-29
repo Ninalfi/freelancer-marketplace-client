@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import axios from 'axios';
 import JobCard from './JobCard';
 
@@ -31,7 +30,8 @@ const AllJobs = () => {
             setLoading(false);
         })
         .catch(err => {
-          
+            console.error("Error fetching jobs:", err);
+            setLoading(false);
         });
 }, [sortOrder]);
 

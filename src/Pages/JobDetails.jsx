@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../Auth/AuthContext";
-import toast from "react-hot-toast";
+import { useParams, useNavigate } from "react-router";
+import { AuthContext } from "../contexts/AuthContext";
 import { Briefcase, User, Mail, CalendarDays } from 'lucide-react';
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/jobs', 
+  baseURL: 'http://localhost:3000', 
   withCredentials: true,
   });
 
@@ -34,8 +34,6 @@ const JobDetails = () => {
             setLoading(false);
           });
     }, [id]);
-
-    // --- Accept Job Handler ---
     const handleAcceptJob = () => {
         if (authLoading) return; // Wait until auth state is confirmed
         
@@ -150,3 +148,8 @@ const JobDetails = () => {
 };
 
 export default JobDetails;
+
+
+
+
+        

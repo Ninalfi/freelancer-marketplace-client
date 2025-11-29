@@ -40,6 +40,13 @@ const AuthProvider = ({children}) => {
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, currentUser => {
     setUser(currentUser);
+    if (currentUser) {
+      currentUser.getIdToken().then(token => {
+        localStorage.setItem('auth-token', token);
+      });
+    } else {
+      localStorage.removeItem('auth-token');
+    }
      setLoading(false);
   });
 
@@ -58,9 +65,9 @@ const AuthProvider = ({children}) => {
     };    
     return (
 
-      <AuthContext value={authInfo}>
+      <AuthContext.Provider value={authInfo}>
         {children}
-      </AuthContext>
+      </AuthContext.Provider>
     );
 };
 
