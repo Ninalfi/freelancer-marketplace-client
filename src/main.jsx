@@ -18,6 +18,7 @@ import PrivateRoute from './Layout/PrivateRoute.jsx';
 import JobDetails from './Pages/JobDetails.jsx';
 import MyAddedJobs from './Pages/MyAddedJobs.jsx';
 import UpdateJob from './Pages/UpdateJob.jsx';
+import MyAcceptedTasks from './Pages/MyAcceptedTasks.jsx';
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,14 @@ const router = createBrowserRouter([
       element:(
         <PrivateRoute>
           <UpdateJob></UpdateJob>
+        </PrivateRoute>
+      )
+    },
+    {
+      path:'my-accepted-tasks',
+      element:(
+        <PrivateRoute>
+          <MyAcceptedTasks></MyAcceptedTasks>
         </PrivateRoute>
       )
     }

@@ -4,6 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Briefcase, User, Mail, CalendarDays } from 'lucide-react';
 import axios from "axios";
 import { toast } from "react-toastify";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000', 
@@ -13,15 +14,14 @@ const axiosInstance = axios.create({
 const JobDetails = () => {
     const { id } = useParams();
     const [job, setJob] = useState(null);
-    const [loading, setLoading] = useState(true); // Added loading state
-    const [isAccepted, setIsAccepted] = useState(false); // To prevent double-accepts
-    const { user, loading: authLoading } = useContext(AuthContext); // Destructure user and authLoading
+    const [loading, setLoading] = useState(true);
+    const [isAccepted, setIsAccepted] = useState(false); 
+    const { user, loading: authLoading } = useContext(AuthContext); 
     const navigate = useNavigate();
 
     // --- Data Fetching ---
     useEffect(() => {
         setLoading(true);
-        // FIX: Use axiosInstance for correct base URL and credentials
         axiosInstance
           .get(`/jobs/${id}`)
           .then((res) => {
@@ -35,18 +35,15 @@ const JobDetails = () => {
           });
     }, [id]);
     const handleAcceptJob = () => {
-        if (authLoading) return; // Wait until auth state is confirmed
-        
-        // 1. Check if user is logged in
+        if (authLoading) return; 
         if (!user) {
             toast.error("🔒 You must be logged in to accept a job.");
             navigate("/login");
             return;
+            
         }
-
-        // 2. Check if user is the poster (already implemented)
         if (job.userEmail === user?.email) {
-            toast.error("❌ You cannot accept your own posted job!");
+            toast.error(" You cannot accept your own posted job!");
             return;
         }
 
@@ -55,15 +52,13 @@ const JobDetails = () => {
             title: job.title,
             category: job.category,
             postedBy: job.postedBy,
-            userEmail: user?.email, // Email of the person accepting the job
-            creatorEmail: job.userEmail, // Email of the person who posted the job
+            userEmail: user?.email,
+            creatorEmail: job.userEmail,
             coverImage: job.coverImage,
             acceptedAt: new Date(),
         };
-
-        // FIX: Use axiosInstance for POST request
         axiosInstance
-            .post("/acceptedTasks", acceptedData)
+            .post("/my-accepted-tasks", acceptedData)
             .then(() => {
                 toast.success("✔ Job accepted successfully! Check 'My Accepted Tasks'.");
                 setIsAccepted(true); // Disable button immediately
@@ -75,10 +70,11 @@ const JobDetails = () => {
             });
     };
 
-    if (loading || authLoading) return <p className="text-center mt-10">Loading details...</p>;
+    if (loading || authLoading) return <LoadingSpinner></LoadingSpinner>;
     if (!job) return <p className="text-center mt-10 text-red-500">Job not found.</p>;
 
     const canAccept = user && job.userEmail !== user.email && !isAccepted;
+
 
     return (
         <div className="container mx-auto px-4 py-10">
@@ -105,7 +101,7 @@ const JobDetails = () => {
                         </p>
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
                             <Mail size={20} className="mr-3 text-red-500" />
-                            <strong>Creator Email: </strong> {job.email}
+                            <strong>Creator Email: </strong> {job.userEmail}
                         </p>
                          {job.postedDateTime && (
                             <p className="flex items-center text-gray-700 dark:text-gray-300">

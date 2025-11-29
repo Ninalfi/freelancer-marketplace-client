@@ -2,6 +2,7 @@ import { Briefcase, CalendarDays, User } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
 import defaultJobImg from '../assets/defaultJobImg.svg';
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const JobCard = ({ job }) => {
   return (
@@ -29,7 +30,7 @@ const JobCard = ({ job }) => {
                 </div>
     
                 <Link 
-                    to={`/allJobs/${job._id}`} 
+                    to={`/jobs/${job._id}`} 
                     className="mt-4 w-full text-center bg-linear-to-r from-green-500 to-green-800 hover:bg-green-200 text-white font-medium py-2 rounded transition duration-300"
                 >
                     View Details

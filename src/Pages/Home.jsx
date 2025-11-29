@@ -121,7 +121,7 @@ if (pageLoading) return <LoadingSpinner/>;
               <h3 className="text-xl font-semibold mt-3 text-green-500">{job.title}</h3>
               <p className="text-gray-600">{job.category}</p>
               <Link
-                to={`/job/${job._id}`}
+                to={`/jobs/${job._id}`}
                 className="mt-4 inline-block bg-linear-to-r from-green-500 to-green-800 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
               >
                 View Details
