@@ -1,16 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../contexts/AuthContext";
+import defaultJobImg from '../assets/defaultJobImg.svg';
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/jobs",
-  withCredentials: true,
-});
 
-export default function MyAddedJobs() {
-  const { user } = useContext(AuthContext) || {};
+const MyAddedJobs = () => {
+  const { user } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -25,12 +22,14 @@ export default function MyAddedJobs() {
     const fetchMyJobs = async () => {
       try {
         setLoading(true);
-        // Fetch only jobs by logged-in user
-        const res = await axiosInstance.get(`/user/${encodeURIComponent(user.email)}`);
+        const res = await axios.get(
+          `http://localhost:3000/jobs/user/${encodeURIComponent(user.email)}`,
+          { withCredentials: true }
+        );
         setJobs(res.data || []);
       } catch (err) {
         console.error("Failed to fetch my jobs:", err);
-        toast.error("🚫 Failed to load your jobs.");
+        toast.error(" Failed to load your jobs.");
       } finally {
         setLoading(false);
       }
@@ -44,12 +43,12 @@ export default function MyAddedJobs() {
     if (!confirmDelete) return;
 
     try {
-      await axiosInstance.delete(`/${id}`);
+      await axios.delete(`http://localhost:3000/jobs/${id}`, { withCredentials: true });
       setJobs((prev) => prev.filter((job) => job._id !== id));
       toast.success("🗑 Job deleted successfully.");
     } catch (err) {
       console.error("Delete failed:", err);
-      toast.error("❌ Failed to delete job.");
+      toast.error(" Failed to delete job.");
     }
   };
 
@@ -82,7 +81,7 @@ export default function MyAddedJobs() {
           {jobs.map((job) => (
             <div key={job._id} className="bg-white dark:bg-gray-800 border rounded-lg overflow-hidden shadow-sm flex flex-col">
               <img
-                src={job.coverImage || "https://via.placeholder.com/600x360?text=No+Image"}
+                src={job.coverImage || defaultJobImg}
                 alt={job.title}
                 className="w-full h-40 object-cover"
               />
@@ -93,8 +92,8 @@ export default function MyAddedJobs() {
 
                 <div className="mt-auto flex items-center justify-between gap-2">
                   <div className="flex gap-2">
-                    <Link to={`/update-job/${job._id}`} className="px-3 py-1 bg-yellow-400 rounded text-sm font-medium">
-                      Edit
+                    <Link to={`/updateJob/${job._id}`} className="px-3 py-1 bg-green-400 rounded text-sm text-amber-950 font-medium">
+                      Update
                     </Link>
 
                     <button
@@ -105,7 +104,7 @@ export default function MyAddedJobs() {
                     </button>
                   </div>
 
-                  <Link to={`/job/${job._id}`} className="text-sm text-indigo-600 hover:underline">
+                  <Link to={`/jobs/${job._id}`} className="text-sm text-indigo-600 hover:underline">
                     View Details →
                   </Link>
                 </div>
@@ -116,4 +115,6 @@ export default function MyAddedJobs() {
       )}
     </div>
   );
-}
+};
+
+export default MyAddedJobs;

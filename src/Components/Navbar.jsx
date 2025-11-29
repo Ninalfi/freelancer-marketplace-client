@@ -30,6 +30,7 @@ const Navbar = () => {
       <NavLink to="/" className="nav-link">Home</NavLink>
       <NavLink to="/allJobs" className="nav-link">All Jobs</NavLink>
       <NavLink to="/addJob" className="nav-link">Add a Job</NavLink>
+      <NavLink to="/my-added-jobs" className="nav-link">My Added</NavLink>
       <NavLink to="/my-accepted-tasks" className="nav-link">My Accepted Tasks</NavLink>
     </>
   );

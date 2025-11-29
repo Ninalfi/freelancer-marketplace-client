@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router";
 import { motion } from "motion/react"
 import JobCard from "./JobCard";
 import { AuthContext} from "../contexts/AuthContext";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 
 const Home = () => {
   const [latestJobs, setLatestJobs] = useState([]);
+  const [pageLoading, setPageLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext)
 
@@ -24,6 +26,14 @@ const Home = () => {
       });
   }, []);
 
+  useEffect(() => {
+  // Simulate page load spinner (optional: use real data fetching)
+  const timer = setTimeout(() => {
+    setPageLoading(false);
+  }, 700); 
+  return () => clearTimeout(timer);
+}, []);
+
     const navigate = useNavigate();
   const handleBrowseJobs = () => {
   if (user) {
@@ -33,10 +43,11 @@ const Home = () => {
   }
 };
 
+if (pageLoading) return <LoadingSpinner/>;
+
   return (
     <div className="space-y-16">
       <section className="relative flex flex-col lg:flex-row items-center justify-between  bg-linear-to-r from-green-500 to-green-800 text-white px-8 py-24 rounded-lg shadow-lg">
-        
         <motion.div
     initial={{ x: -50, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}

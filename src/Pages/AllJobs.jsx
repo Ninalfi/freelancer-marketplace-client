@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import JobCard from './JobCard';
+import LoadingSpinner from '../Components/LoadingSpinner';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000/jobs', 
@@ -35,9 +36,7 @@ const AllJobs = () => {
         });
 }, [sortOrder]);
 
-    if (loading) {
-        return <div className="text-center my-20">Loading jobs...</div>; 
-    }
+    if (loading) return <LoadingSpinner/>;
 
     return (
         <div className="container mx-auto p-6">

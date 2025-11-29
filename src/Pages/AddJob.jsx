@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/jobs",
-  withCredentials: true,
-});
+// const axiosInstance = axios.create({
+//   baseURL: "http://localhost:3000/jobs",
+//   withCredentials: true,
+// });
 
 const AddJob = () => {
   const { user } = useContext(AuthContext);
@@ -45,17 +45,17 @@ const AddJob = () => {
 
     const finalJobData = {
       ...jobData,
-      postedBy: user?.displayName,
-      userEmail: user?.email,
+      postedBy: user?.email,
+      email: user?.email,
       postedDateTime: new Date(),
     };
 
-    try {
-      await axiosInstance.post("/", finalJobData);
+   try {
+      await axios.post("http://localhost:3000/jobs", finalJobData, { withCredentials: true });
       toast.success("🎉 Job added successfully!");
       navigate("/my-added-jobs");
     } catch (error) {
-      console.error(error);
+      console.error("Add job failed:", error);
       toast.error("❌ Failed to add job");
     }
   };
@@ -75,8 +75,6 @@ const AddJob = () => {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-
-        {/* Title */}
         <div>
           <label className="text-gray-700 font-semibold dark:text-gray-300">
             Job Title *
@@ -87,11 +85,9 @@ const AddJob = () => {
             value={jobData.title}
             onChange={handleChange}
             placeholder="Enter job title"
-            className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white"
+            className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white required"
           />
         </div>
-
-        {/* Category */}
         <div>
           <label className="text-gray-700 font-semibold dark:text-gray-300">
             Category *
@@ -100,7 +96,7 @@ const AddJob = () => {
             name="category"
             value={jobData.category}
             onChange={handleChange}
-            className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white"
+            className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white required"
           >
             <option value="">-- Select Category --</option>
             {categories.map((cat, idx) => (
@@ -110,8 +106,6 @@ const AddJob = () => {
             ))}
           </select>
         </div>
-
-        {/* Summary */}
         <div>
           <label className="text-gray-700 font-semibold dark:text-gray-300">
             Summary *
@@ -122,11 +116,9 @@ const AddJob = () => {
             onChange={handleChange}
             placeholder="Write job details..."
             rows="4"
-            className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white"
+            className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white required"
           ></textarea>
         </div>
-
-        {/* Cover Image */}
         <div>
           <label className="text-gray-700 font-semibold dark:text-gray-300">
             Cover Image URL *
@@ -140,8 +132,6 @@ const AddJob = () => {
             className="w-full p-3 border rounded-md mt-1 dark:bg-gray-700 dark:text-white"
           />
         </div>
-
-        {/* Auto-filled Fields */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-gray-700 font-semibold dark:text-gray-300">
@@ -164,11 +154,9 @@ const AddJob = () => {
             />
           </div>
         </div>
-
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg text-lg font-semibold transition"
+          className="w-full mt-6 bg-linear-to-r from-green-500 to-green-800 hover:bg-green-700 text-white p-3 rounded-lg text-lg font-semibold transition"
         >
           Submit Job
         </button>

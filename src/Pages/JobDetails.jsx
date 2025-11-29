@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { Briefcase, User, Mail, CalendarDays } from 'lucide-react';
 import axios from "axios";
@@ -97,15 +97,15 @@ const JobDetails = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6 border-y py-4 dark:border-gray-700">
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
                             <Briefcase size={20} className="mr-3 text-blue-500" />
-                            <strong>Category:</strong> {job.category}
+                            <strong>Category: </strong> {job.category}
                         </p>
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
                             <User size={20} className="mr-3 text-purple-500" />
-                            <strong>Posted By:</strong> {job.postedBy}
+                            <strong>Posted By: </strong> {job.postedBy}
                         </p>
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
                             <Mail size={20} className="mr-3 text-red-500" />
-                            <strong>Creator Email:</strong> {job.userEmail}
+                            <strong>Creator Email: </strong> {job.email}
                         </p>
                          {job.postedDateTime && (
                             <p className="flex items-center text-gray-700 dark:text-gray-300">
@@ -114,8 +114,6 @@ const JobDetails = () => {
                             </p>
                         )}
                     </div>
-
-                    {/* Accept Button with Conditional States */}
                     <button
                         onClick={handleAcceptJob}
                         disabled={!canAccept}
@@ -124,7 +122,7 @@ const JobDetails = () => {
                                 ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed text-gray-700 dark:text-gray-400'
                             : isAccepted
                                 ? 'bg-green-700 cursor-not-allowed text-white'
-                            : job.userEmail === user?.email
+                            : job.email === user?.email
                                 ? 'bg-red-500 cursor-not-allowed text-white'
                             : 'bg-green-600 hover:bg-green-700 text-white'
                         }`}
@@ -133,12 +131,15 @@ const JobDetails = () => {
                             'Login to Accept'
                         ) : isAccepted ? (
                             'Task Accepted!'
-                        ) : job.userEmail === user?.email ? (
+                        ) : job.email === user?.email ? (
                             'Cannot Accept Own Task'
                         ) : (
                             'Accept Job'
                         )}
                     </button>
+                    <Link to={`/`} className="text-md dark:text-lime-300 text-green-600 hover:underline text-center mt-4 block">
+                    Back to Home →
+                  </Link>
                     
                     {!user && <p className="text-center text-sm mt-3 text-red-500">You must log in to accept tasks.</p>}
                 </div>

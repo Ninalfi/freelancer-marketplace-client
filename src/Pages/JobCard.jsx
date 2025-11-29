@@ -1,11 +1,12 @@
 import { Briefcase, CalendarDays, User } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
+import defaultJobImg from '../assets/defaultJobImg.svg';
 
 const JobCard = ({ job }) => {
   return (
      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-xl text-center">
-            <img src={job.coverImage || 'placeholder.jpg'} alt={job.title} className="w-full h-40 object-cover" />
+            <img src={job.coverImage || defaultJobImg } alt={job.title} className="w-full h-40 object-cover" />
             <div className="p-5 flex flex-col flex-grow text-center ">
                 <h3 className="text-xl font-bold  text-green-500 dark:text-green-700 mb-2">{job.title}</h3>
                 <p className="text-sm text-purple-600 dark:text-lime-400 font-semibold flex justify-center items-center  mb-3">
