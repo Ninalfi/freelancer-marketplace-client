@@ -9,11 +9,10 @@ const MyAcceptedTasks = () => {
   const [acceptedJobs, setAcceptedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch accepted jobs
   useEffect(() => {
     if (!user?.email) return;
 
-    axios.get(`http://localhost:3000/my-accepted-tasks/${user.email}`)
+    axios.get(`http://localhost:3000/my-accepted-tasks/${encodeURIComponent(user.email)}`)
       .then(res => {
         setAcceptedJobs(res.data);
         setLoading(false);
@@ -25,13 +24,13 @@ const MyAcceptedTasks = () => {
 
   }, [user]);
 
-  // Delete job (Done or Cancel)
   const handleRemove = async (id, action) => {
     try {
       await axios.delete(`http://localhost:3000/my-accepted-tasks/${id}`);
       setAcceptedJobs(prev => prev.filter(job => job._id !== id));
       toast.success(`${action} Successfully`);
     } catch (error) {
+        console.error("Failed to update task:", error);
       toast.error("Failed to update task");
     }
   };
@@ -49,13 +48,14 @@ const MyAcceptedTasks = () => {
       {acceptedJobs.length === 0 ? (
         <p className="text-center text-gray-500 text-lg">No accepted tasks yet.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {acceptedJobs.map(job => (
             <div key={job._id} className="border p-5 rounded-lg shadow-md bg-white space-y-2">
               <img src={job.coverImage} alt="" className="h-32 w-full object-cover rounded" />
 
-              <h3 className="text-xl font-semibold">{job.title}</h3>
-              <p className="text-gray-500">{job.category}</p>
+              <h3 className="text-xl text-center text-green-600 font-semibold">{job.title}</h3>
+              <p className="text-gray-500 text-center">{job.category}</p>
+              <p className="text-gray-600 text-sm">Posted By: {job.creatorEmail}</p>
 
               <div className="flex justify-between mt-4">
                 <button

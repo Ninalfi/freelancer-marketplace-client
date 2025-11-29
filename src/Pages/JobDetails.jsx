@@ -5,6 +5,7 @@ import { Briefcase, User, Mail, CalendarDays } from 'lucide-react';
 import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import defaultJobImg from "../assets/defaultJobImg.svg";
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000', 
@@ -19,7 +20,6 @@ const JobDetails = () => {
     const { user, loading: authLoading } = useContext(AuthContext); 
     const navigate = useNavigate();
 
-    // --- Data Fetching ---
     useEffect(() => {
         setLoading(true);
         axiosInstance
@@ -28,12 +28,13 @@ const JobDetails = () => {
             setJob(res.data);
             setLoading(false);
           })
-          .catch((err) => {
-            console.error("Error fetching job details:", err);
-            toast.error("❌ Failed to load job details.");
-            setLoading(false);
-          });
-    }, [id]);
+         .catch((err) => {
+        console.error("Error fetching job details:", err.response?.data || err);
+        toast.error(err.response?.data?.message || " Job not found.");
+        setJob(null);
+        setLoading(false);
+      });
+  }, [id]);
     const handleAcceptJob = () => {
         if (authLoading) return; 
         if (!user) {
@@ -42,7 +43,7 @@ const JobDetails = () => {
             return;
             
         }
-        if (job.userEmail === user?.email) {
+        if (job.postedBy === user?.email) {
             toast.error(" You cannot accept your own posted job!");
             return;
         }
@@ -52,8 +53,8 @@ const JobDetails = () => {
             title: job.title,
             category: job.category,
             postedBy: job.postedBy,
-            userEmail: user?.email,
-            creatorEmail: job.userEmail,
+            accepterEmail: user.email,
+            creatorEmail: job.postedBy,
             coverImage: job.coverImage,
             acceptedAt: new Date(),
         };
@@ -61,17 +62,23 @@ const JobDetails = () => {
             .post("/my-accepted-tasks", acceptedData)
             .then(() => {
                 toast.success("✔ Job accepted successfully! Check 'My Accepted Tasks'.");
-                setIsAccepted(true); // Disable button immediately
+                setIsAccepted(true); 
                 navigate("/my-accepted-tasks");
             })
             .catch((err) => {
                 console.error("Task acceptance failed:", err.response?.data);
-                toast.error(err.response?.data?.message || "❌ Failed to accept job.");
+                toast.error(err.response?.data?.message || " Failed to accept job.");
             });
     };
 
     if (loading || authLoading) return <LoadingSpinner></LoadingSpinner>;
-    if (!job) return <p className="text-center mt-10 text-red-500">Job not found.</p>;
+    if (!job) return ( <div className="text-center mt-10">
+      <p className="text-red-500 text-xl">Job not found.</p>
+      <Link to="/" className="mt-4 inline-block text-green-600 hover:underline">
+        Back to Home
+      </Link>
+    </div>
+    );
 
     const canAccept = user && job.userEmail !== user.email && !isAccepted;
 
@@ -80,7 +87,7 @@ const JobDetails = () => {
         <div className="container mx-auto px-4 py-10">
             <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl overflow-hidden">
                 <img
-                    src={job.coverImage || 'placeholder.jpg'}
+                    src={job.coverImage || defaultJobImg}
                     className="w-full h-80 object-cover rounded-t-xl"
                     alt={`${job.title} cover`}
                 />
@@ -101,7 +108,7 @@ const JobDetails = () => {
                         </p>
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
                             <Mail size={20} className="mr-3 text-red-500" />
-                            <strong>Creator Email: </strong> {job.userEmail}
+                            <strong>Creator Email: </strong> {job.postedBy}
                         </p>
                          {job.postedDateTime && (
                             <p className="flex items-center text-gray-700 dark:text-gray-300">
@@ -118,7 +125,7 @@ const JobDetails = () => {
                                 ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed text-gray-700 dark:text-gray-400'
                             : isAccepted
                                 ? 'bg-green-700 cursor-not-allowed text-white'
-                            : job.email === user?.email
+                            : job.postedBy === user?.email
                                 ? 'bg-red-500 cursor-not-allowed text-white'
                             : 'bg-green-600 hover:bg-green-700 text-white'
                         }`}
@@ -127,7 +134,7 @@ const JobDetails = () => {
                             'Login to Accept'
                         ) : isAccepted ? (
                             'Task Accepted!'
-                        ) : job.email === user?.email ? (
+                        ) : job.postedBy === user?.email ? (
                             'Cannot Accept Own Task'
                         ) : (
                             'Accept Job'

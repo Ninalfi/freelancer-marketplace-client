@@ -131,7 +131,6 @@ if (pageLoading) return <LoadingSpinner/>;
         </div>
       </section>
 
-      {/* ----------- Top Categories ----------- */}
        <section className="px-4 md:px-6 lg:px-8 text-center mt-12">
          <h2 className="text-3xl font-bold mb-6">Top Categories</h2>
 
