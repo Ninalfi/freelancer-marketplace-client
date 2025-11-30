@@ -3,27 +3,28 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { toast } from "react-toastify";
+import ThemeToggle from "./ThemeToggle";
 
 
 
 const Navbar = () => {
   const { user, logOut, loading } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  //const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-            root.classList.add("dark");
-        } else {
-            root.classList.remove("dark");
-        }
-        localStorage.setItem("theme", theme);
-    }, [theme]);
+  // useEffect(() => {
+  //   const root = document.documentElement;
+  //   if (theme === "dark") {
+  //           root.classList.add("dark");
+  //       } else {
+  //           root.classList.remove("dark");
+  //       }
+  //       localStorage.setItem("theme", theme);
+  //   }, [theme]);
 
-    const handleThemeToggle = () => {
-        setTheme(theme === "dark" ? "light" : "dark");
-    };
+  //   const handleThemeToggle = () => {
+  //       setTheme(theme === "dark" ? "light" : "dark");
+  //   };
 
   const navLinks = (
     <>
@@ -47,12 +48,9 @@ const Navbar = () => {
           {navLinks}
 
           {/* Theme Toggle */}
-          <button
-                        onClick={handleThemeToggle}
-                        className="p-2 rounded-full border dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200"
-                    >
-                        {theme === "dark" ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-gray-900" />}
-                    </button>
+          
+          <ThemeToggle></ThemeToggle>
+          
 
           {/* Auth Section */}
           {!user ? (
@@ -65,7 +63,7 @@ const Navbar = () => {
               <div className="relative group">
                 <img
                   src={user?.photoURL}
-                  alt="profile"
+                  alt={user.displayName}
                   className="w-10 h-10 rounded-full border cursor-pointer"
                 />
                 <span className="absolute hidden group-hover:block bg-black text-white text-sm px-2 py-1 rounded-md -bottom-10 left-1/2 transform -translate-x-1/2">
@@ -99,18 +97,7 @@ const Navbar = () => {
         <div className="bg-gray-100 dark:bg-gray-800 p-4 flex flex-col gap-3 md:hidden">
 
           {navLinks}
-
-          {/* Theme Toggle (mobile) */}
-          <button
-                        onClick={handleThemeToggle}
-                        className="p-2 rounded-md border dark:border-gray-600 flex items-center justify-center gap-2 mt-2"
-                    >
-                        {theme === "dark" ? (
-                            <>Switch to Light <Sun size={20} className="text-yellow-400" /></>
-                        ) : (
-                            <>Switch to Dark <Moon size={20} className="text-gray-900" /></>
-                        )}
-                    </button>
+            <ThemeToggle></ThemeToggle>
 
           {!user ? (
             <>

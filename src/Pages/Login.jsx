@@ -20,8 +20,7 @@ const Login = () => {
 
     const handleChange = (e) => {
         setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
+            ...formData, [e.target.name]: e.target.value
         });
     };
 
@@ -63,18 +62,18 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full">
-                {/* Card Container */}
-                <div className="bg-white rounded-2xl shadow-2xl p-6 space-y-6 border border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-r from-green-400 to-green-700 py-8 px-4 sm:px-6 lg:px-8">
+         <div className="max-w-md w-full">
+            {/* Card Container */}
+            <div className="bg-white rounded-2xl shadow-2xl p-6 space-y-6 border border-gray-100">
                     {/* Header */}
                     <div className="text-center">
-                        <div className="mx-auto w-12 h-12 bg-linear-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mb-3">
-                            <FaLock className="text-white text-xl" />
+                        <div className="mx-auto w-12 h-12 bg-linear-to-r from-green-500 to-green-800 rounded-full flex items-center justify-center mb-3">
+              <FaLock className="text-white text-xl" />
                         </div>
-                        <h2 className="text-2xl font-black text-gray-900 dark:text-gray-600">Login Now</h2>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Sign in to access your account
+           <h2 className="text-2xl font-black text-gray-900 dark:text-gray-600">Login Now</h2>
+             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+             Sign in to access your account
                         </p>
                     </div>
 
@@ -82,7 +81,7 @@ const Login = () => {
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         {/* Email Input */}
                         <div>
-                            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                            <label htmlFor="email" className="block text-sm font-semibold text-gray-800 dark:text-gray-700 mb-1">
                                 Email Address
                             </label>
                             <div className="relative">
@@ -97,7 +96,7 @@ const Login = () => {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
+                                    className="block text-amber-950 w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
                                     placeholder="Enter your email"
                                 />
                             </div>
@@ -120,7 +119,7 @@ const Login = () => {
                                     required
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className="block w-full pl-10 pr-12 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
+                                    className="block  text-amber-950  w-full pl-10 pr-12 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
                                     placeholder="Enter your password"
                                 />
                                 <button
@@ -134,14 +133,16 @@ const Login = () => {
                                         <FaEye className="h-5 w-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400" />
                                     )}
                                 </button>
+                                
                             </div>
+                            <p className='text-black underline ml-4 mt-2'>Forget Password?</p>
                         </div>
 
                         {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-linear-to-r from-green-500 to-green-800 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <div className="flex items-center">

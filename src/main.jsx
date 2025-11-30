@@ -20,6 +20,7 @@ import MyAddedJobs from './Pages/MyAddedJobs.jsx';
 import UpdateJob from './Pages/UpdateJob.jsx';
 import MyAcceptedTasks from './Pages/MyAcceptedTasks.jsx';
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -92,7 +93,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      
+        <RouterProvider router={router} />
+     
     </AuthProvider>
   </StrictMode>
 )

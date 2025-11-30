@@ -2,6 +2,9 @@
 
 **Live Site:** 
 
+Client-site:
+Server-site:https://freelance-marketplace-server-hazel.vercel.app/
+
 ---
 
 ## Project Overview

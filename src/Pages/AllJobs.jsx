@@ -15,7 +15,7 @@ const AllJobs = () => {
     try {
       setLoading(true);
 
-      let url = `http://localhost:3000/jobs?sort=${sortOrder}`;
+      let url = `https://freelance-marketplace-server-hazel.vercel.app/jobs?sort=${sortOrder}`;
       if (searchQuery) url += `&search=${encodeURIComponent(searchQuery)}`;
       if (categoryFilter) url += `&category=${encodeURIComponent(categoryFilter)}`;
 

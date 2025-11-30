@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAkPGBzGWwJI1gWOlx9Vxo36g6_1qGFiLc",
-  authDomain: "freelance-marketplace-87993.firebaseapp.com",
-  projectId: "freelance-marketplace-87993",
-  storageBucket: "freelance-marketplace-87993.firebasestorage.app",
-  messagingSenderId: "639765585342",
-  appId: "1:639765585342:web:bcec166f7544af4a556def"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId
 };
 
 // Initialize Firebase

@@ -7,7 +7,7 @@ const NotFound = () => {
       <div className="max-w-2xl w-full text-center">
         {/* 404 Animation */}
         <div className="mb-8 animate-bounce">
-          <h1 className="text-9xl font-black bg-linear-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-9xl font-black bg-linear-to-r from-green-500 to-green-800 bg-clip-text text-transparent">
             404
           </h1>
         </div>
@@ -27,7 +27,7 @@ const NotFound = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link 
             to="/"
-            className="flex items-center gap-2 bg-linear-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="flex items-center gap-2 bg-linear-to-r from-green-500 to-green-800 text-white px-8 py-4 rounded-full font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <FaHome /> Go to Home
           </Link>

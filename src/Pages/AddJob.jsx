@@ -45,8 +45,8 @@ const AddJob = () => {
 
     const finalJobData = {
       ...jobData,
-      postedBy: user?.email,
-      email: user?.email,
+      postedBy: user?.displayName,
+      userEmail: user?.email,
       postedDateTime: new Date(),
     };
 

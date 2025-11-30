@@ -8,7 +8,7 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import defaultJobImg from "../assets/defaultJobImg.svg";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000', 
+  baseURL: 'https://freelance-marketplace-server-hazel.vercel.app', 
   withCredentials: true,
   });
 
@@ -21,9 +21,10 @@ const JobDetails = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!id) return;
         setLoading(true);
-        axiosInstance
-          .get(`/jobs/${id}`)
+
+        axiosInstance .get(`/jobs/${id}`)
           .then((res) => {
             setJob(res.data);
             setLoading(false);
@@ -43,13 +44,13 @@ const JobDetails = () => {
             return;
             
         }
-        if (job.postedBy === user?.email) {
+        if (job.userEmail === user?.email) {
             toast.error(" You cannot accept your own posted job!");
             return;
         }
 
         const acceptedData = {
-            jobId: id,
+          jobId: id,
             title: job.title,
             category: job.category,
             postedBy: job.postedBy,
@@ -80,7 +81,7 @@ const JobDetails = () => {
     </div>
     );
 
-    const canAccept = user && job.userEmail !== user.email && !isAccepted;
+    const canAccept = user && job.userEmail !== user?.email && !isAccepted;
 
 
     return (
@@ -93,8 +94,8 @@ const JobDetails = () => {
                 />
 
                 <div className="p-8">
-                    <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-3">{job.title}</h1>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">{job.summary}</p>
+                    <h1 className="text-4xl text-center font-extrabold text-gray-900 dark:text-white mb-3">{job.title}</h1>
+                    <p className="text-lg text-center text-gray-600 dark:text-gray-400 mb-6">{job.summary}</p>
 
                     {/* Job Metadata */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6 border-y py-4 dark:border-gray-700">
@@ -103,12 +104,12 @@ const JobDetails = () => {
                             <strong>Category: </strong> {job.category}
                         </p>
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
-                            <User size={20} className="mr-3 text-purple-500" />
+                            <User size={20} className="mr-3 text-green-500" />
                             <strong>Posted By: </strong> {job.postedBy}
                         </p>
                         <p className="flex items-center text-gray-700 dark:text-gray-300">
                             <Mail size={20} className="mr-3 text-red-500" />
-                            <strong>Creator Email: </strong> {job.postedBy}
+                            <strong>Creator Email: </strong> {job.userEmail}
                         </p>
                          {job.postedDateTime && (
                             <p className="flex items-center text-gray-700 dark:text-gray-300">
@@ -119,22 +120,22 @@ const JobDetails = () => {
                     </div>
                     <button
                         onClick={handleAcceptJob}
-                        disabled={!canAccept}
+                        disabled={!canAccept && !isAccepted && user}
                         className={`mt-5 px-6 py-3 rounded-lg text-lg transition w-full font-semibold ${
                             !user 
                                 ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed text-gray-700 dark:text-gray-400'
                             : isAccepted
                                 ? 'bg-green-700 cursor-not-allowed text-white'
-                            : job.postedBy === user?.email
+                            : job.userEmail === user?.email
                                 ? 'bg-red-500 cursor-not-allowed text-white'
-                            : 'bg-green-600 hover:bg-green-700 text-white'
+                            : 'bg-linear-to-r from-green-400 to-green-700 hover:bg-green-700 text-white'
                         }`}
                     >
                         {!user ? (
                             'Login to Accept'
                         ) : isAccepted ? (
                             'Task Accepted!'
-                        ) : job.postedBy === user?.email ? (
+                        ) : job.userEmail === user?.email ? (
                             'Cannot Accept Own Task'
                         ) : (
                             'Accept Job'

@@ -17,7 +17,7 @@ const UpdateJob = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/jobs/${id}`);
+        const res = await axios.get(`https://freelance-marketplace-server-hazel.vercel.app/jobs/${id}`);
         setJobData(res.data);
       } catch (err) {
         console.error(err);

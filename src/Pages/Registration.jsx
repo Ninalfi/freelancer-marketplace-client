@@ -76,11 +76,11 @@ const Registration = () => {
         }
     };
     return (
-         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+         <div className="min-h-screen flex items-center justify-center bg-linear-to-r from-green-400 to-green-700 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full">
                 <div className="bg-white rounded-2xl shadow-2xl p-6 space-y-6 border border-gray-100">
                     <div className="text-center">
-                        <div className="mx-auto w-12 h-12 bg-linear-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mb-3">
+                        <div className="mx-auto w-12 h-12 bg-linear-to-r from-green-500 to-green-800 rounded-full flex items-center justify-center mb-3">
                             <FaUser className="text-white text-xl" />
                         </div>
                         <h2 className="text-2xl font-black text-gray-900">Skillio SignUp Now!</h2>
@@ -147,7 +147,7 @@ const Registration = () => {
                             <p className="mt-2 text-xs text-gray-500"> Must contain uppercase, lowercase, and at least 6 characters
                             </p>
                         </div>
-                          <button type="submit" disabled={loading} className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                          <button type="submit" disabled={loading} className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-linear-to-r from-green-500 to-green-800 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
                             {loading ? (
                                 <div className="flex items-center">
                                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../contexts/AuthContext";
 import defaultJobImg from '../assets/defaultJobImg.svg';
+import Swal from "sweetalert2";
 
 
 const MyAddedJobs = () => {
@@ -20,10 +21,11 @@ const MyAddedJobs = () => {
     }
 
     const fetchMyJobs = async () => {
+      if (!user?.email) return;
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:3000/jobs/user/${encodeURIComponent(user.email)}`,
+          `https://freelance-marketplace-server-hazel.vercel.app/jobs/user/${encodeURIComponent(user.email)}`,
           { withCredentials: true }
         );
         setJobs(res.data || []);
@@ -39,16 +41,25 @@ const MyAddedJobs = () => {
   }, [user]);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this job?");
-    if (!confirmDelete) return;
+   const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "This job will be permanently deleted!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       await axios.delete(`http://localhost:3000/jobs/${id}`, { withCredentials: true });
-      setJobs((prev) => prev.filter((job) => job._id !== id));
-      toast.success("🗑 Job deleted successfully.");
+      setJobs(prev => prev.filter(job => job._id !== id));
+      Swal.fire('Deleted!', 'Your job has been deleted.', 'success');
     } catch (err) {
       console.error("Delete failed:", err);
-      toast.error(" Failed to delete job.");
+      Swal.fire('Error', 'Failed to delete job.', 'error');
     }
   };
 

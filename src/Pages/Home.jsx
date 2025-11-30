@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/jobs?limit=6")
+      .get("https://freelance-marketplace-server-hazel.vercel.app/jobs?limit=6")
       .then((res) => {
         setLatestJobs(res.data);
         setLoading(false);
@@ -27,7 +27,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-  // Simulate page load spinner (optional: use real data fetching)
   const timer = setTimeout(() => {
     setPageLoading(false);
   }, 700); 
@@ -46,8 +45,8 @@ const Home = () => {
 if (pageLoading) return <LoadingSpinner/>;
 
   return (
-    <div className="space-y-16">
-      <section className="relative flex flex-col lg:flex-row items-center justify-between  bg-linear-to-r from-green-500 to-green-800 text-white px-8 py-24 rounded-lg shadow-lg">
+    <div className="space-y-10">
+      <section className="relative flex flex-col lg:flex-row items-center justify-between  bg-linear-to-r from-green-500 to-green-800 text-white px-8 py-15 rounded-lg shadow-lg">
         <motion.div
     initial={{ x: -50, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
@@ -91,7 +90,7 @@ if (pageLoading) return <LoadingSpinner/>;
   Browse Jobs
 </button>
       <Link
-        to="/add-job"
+        to="/addJob"
         className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-purple-600 font-semibold"
       >
         Create a Job
@@ -107,7 +106,7 @@ if (pageLoading) return <LoadingSpinner/>;
       </section>
 
       {/* ----------- Dynamic Latest Jobs ----------- */}
-       <section className="px-6 md:px-6 lg:px-8">
+       <section className="px-6 md:px-6 lg:px-8 bg-linear-to-r from-gray-200 to-gray-400">
         <h2 className="text-3xl font-bold mb-6 text-center md:text-left">Latest Jobs</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:text-center">
@@ -118,11 +117,11 @@ if (pageLoading) return <LoadingSpinner/>;
               className="border rounded-lg p-5 shadow-md bg-white"
             >
               <img src={job.coverImage} className="h-36 w-full rounded-md object-cover" />
-              <h3 className="text-xl font-semibold mt-3 text-green-500">{job.title}</h3>
-              <p className="text-gray-600">{job.category}</p>
+              <h3 className="text-xl text-center font-semibold mt-3 text-green-500">{job.title}</h3>
+              <p className="text-gray-600 text-center">{job.category}</p>
               <Link
                 to={`/jobs/${job._id}`}
-                className="mt-4 inline-block bg-linear-to-r from-green-500 to-green-800 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+                className="mt-4 w-full text-center inline-block bg-linear-to-r from-green-500 to-green-800 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
               >
                 View Details
               </Link>
@@ -159,10 +158,8 @@ if (pageLoading) return <LoadingSpinner/>;
     </div>
   )}
       </section>
-
-      {/* ----------- About Platform ----------- */}
-      <section className="px-8 py-12 bg-gray-100 dark:bg-gray-900 rounded-lg">
-        <h2 className="text-3xl font-bold mb-4">About Freelance Marketplace</h2>
+      <section className="px-8 py-12 bg-gray-400 dark:bg-gray-900 rounded-lg">
+        <h2 className="text-3xl text-center font-bold mb-4">About Freelance Marketplace</h2>
         <p className="text-lg md:text-xl">
           Freelance Marketplace is a reliable platform where clients can post jobs
           and freelancers can find meaningful work. We connect talent with

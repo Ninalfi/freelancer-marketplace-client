@@ -3,6 +3,7 @@ import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import Swal from "sweetalert2";
 
 const MyAcceptedTasks = () => {
   const { user } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const MyAcceptedTasks = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axios.get(`http://localhost:3000/my-accepted-tasks/${encodeURIComponent(user.email)}`)
+    axios.get(`https://freelance-marketplace-server-hazel.vercel.app/my-accepted-tasks/${encodeURIComponent(user.email)}`)
       .then(res => {
         setAcceptedJobs(res.data);
         setLoading(false);
@@ -25,14 +26,44 @@ const MyAcceptedTasks = () => {
   }, [user]);
 
   const handleRemove = async (id, action) => {
+     if (action === "Completed") {
+    // Directly show success alert for Done
     try {
       await axios.delete(`http://localhost:3000/my-accepted-tasks/${id}`);
       setAcceptedJobs(prev => prev.filter(job => job._id !== id));
-      toast.success(`${action} Successfully`);
+      Swal.fire({
+        title: "Job Completed!",
+        text: "You have successfully completed this task.",
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#3085d6"
+      });
+    } catch (error) {
+      console.error("Failed to complete task:", error);
+      Swal.fire("Error", "Failed to mark task as done.", "error");
+    }
+  } else if (action === "Cancelled") {
+    // Show confirmation for cancelling
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This task will be cancelled.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#aaa",
+      confirmButtonText: "Yes, Cancel it!"
+    });
+
+    if (!result.isConfirmed) return;
+    try {
+      await axios.delete(`http://localhost:3000/my-accepted-tasks/${id}`);
+      setAcceptedJobs(prev => prev.filter(job => job._id !== id));
+      Swal.fire('Your job has been canceled.', 'success');
     } catch (error) {
         console.error("Failed to update task:", error);
-      toast.error("Failed to update task");
+      Swal.fire('Error', 'Failed to cancel job.', 'error');
     }
+  }
   };
 
   if (!user)
