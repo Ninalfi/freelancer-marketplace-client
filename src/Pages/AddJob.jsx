@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 
 // const axiosInstance = axios.create({
-//   baseURL: "http://localhost:3000/jobs",
+//   baseURL: "https://freelance-marketplace-server-hazel.vercel.app/jobs",
 //   withCredentials: true,
 // });
 
@@ -51,7 +51,7 @@ const AddJob = () => {
     };
 
    try {
-      await axios.post("http://localhost:3000/jobs", finalJobData, { withCredentials: true });
+      await axios.post("https://freelance-marketplace-server-hazel.vercel.app/jobs", finalJobData, { withCredentials: true });
       toast.success("🎉 Job added successfully!");
       navigate("/my-added-jobs");
     } catch (error) {

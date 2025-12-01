@@ -54,7 +54,7 @@ const MyAddedJobs = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:3000/jobs/${id}`, { withCredentials: true });
+      await axios.delete(`https://freelance-marketplace-server-hazel.vercel.app/jobs/${id}`, { withCredentials: true });
       setJobs(prev => prev.filter(job => job._id !== id));
       Swal.fire('Deleted!', 'Your job has been deleted.', 'success');
     } catch (err) {

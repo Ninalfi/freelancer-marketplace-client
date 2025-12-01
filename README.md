@@ -3,7 +3,10 @@
 **Live Site:** 
 
 Client-site:
+    >>Firebase: https://freelance-marketplace-87993.web.app
+    >>Netlify: 
 Server-site:https://freelance-marketplace-server-hazel.vercel.app/
+
 
 ---
 

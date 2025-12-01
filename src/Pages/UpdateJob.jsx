@@ -37,7 +37,7 @@ const UpdateJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:3000/jobs/${id}`, jobData);
+      await axios.patch(`https://freelance-marketplace-server-hazel.vercel.app/jobs/${id}`, jobData);
       toast.success("✅ Job updated successfully!");
       navigate("/my-added-jobs");
     } catch (err) {

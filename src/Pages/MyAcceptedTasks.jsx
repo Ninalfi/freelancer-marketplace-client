@@ -29,7 +29,7 @@ const MyAcceptedTasks = () => {
      if (action === "Completed") {
     // Directly show success alert for Done
     try {
-      await axios.delete(`http://localhost:3000/my-accepted-tasks/${id}`);
+      await axios.delete(`https://freelance-marketplace-server-hazel.vercel.app/my-accepted-tasks/${id}`);
       setAcceptedJobs(prev => prev.filter(job => job._id !== id));
       Swal.fire({
         title: "Job Completed!",
@@ -56,7 +56,7 @@ const MyAcceptedTasks = () => {
 
     if (!result.isConfirmed) return;
     try {
-      await axios.delete(`http://localhost:3000/my-accepted-tasks/${id}`);
+      await axios.delete(`https://freelance-marketplace-server-hazel.vercel.app/my-accepted-tasks/${id}`);
       setAcceptedJobs(prev => prev.filter(job => job._id !== id));
       Swal.fire('Your job has been canceled.', 'success');
     } catch (error) {

@@ -1,6 +1,6 @@
 
 
-const baseURL = import.meta.env.VITE_API_URL ||"https://freelance-marketplace-server-hazel.vercel.app/";
+const baseURL = import.meta.env.VITE_API_URL ||"https://freelance-marketplace-server-hazel.vercel.app";
 
 export const getJobs = async () => {
   const res = await fetch(`${baseURL}/jobs`);
